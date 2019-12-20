@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Mystyle from "../mystyle.css";
@@ -33,7 +34,8 @@ export default class Profile extends Component {
     data: [],
     show: false,
     FullName: "",
-    Email: ""
+    Email: "",
+    file: null,
   };
   componentDidMount() {
     let data = services.getUsers();
@@ -64,12 +66,26 @@ export default class Profile extends Component {
   handleSubmit = e => {
     e.preventDefault();
     console.log(this.state.data);
-    //this.state.data.push(Newdata);
-    this.setState({
-      FullName: ""
-    });
+     const formData = new FormData();
+        formData.append('myImage',this.state.file);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        axios.post("/upload",formData,config)
+            .then((response) => {
+                alert("The file is successfully uploaded");
+            }).catch((error) => {
+        });
+    // this.setState({
+    //   FullName: ""
+    // });
   };
-
+filechange=(e)=>{
+  console.log("image taken");
+  this.setState({file:e.target.files[0]});
+}
   render() {
     const { filter, data } = this.state;
     const lowercasedFilter = filter.toLowerCase();
@@ -156,7 +172,10 @@ export default class Profile extends Component {
                 id={this.state.FullName}
                 onChange={this.inputhandle}
               />
-              <input type="submit" value="Submit" />
+
+               <br/>  <br/>  <br/>   
+              <input type="file" name="myImage" onChange= {this.filechange} /><br/>  <br/>  
+              <input type="submit" value="Submit" /><br/>  <br/>  
             </form>
           </Modal>
         </main>
