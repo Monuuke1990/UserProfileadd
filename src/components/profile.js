@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
+ import { makeStyles } from "@material-ui/core/styles";
 
 import Mystyle from "../mystyle.css";
 import {
@@ -85,6 +85,7 @@ export default class Profile extends Component {
 filechange=(e)=>{
   console.log("image taken");
   this.setState({file:e.target.files[0]});
+  // https://medium.com/@mahesh_joshi/reactjs-nodejs-upload-image-how-to-upload-image-using-reactjs-and-nodejs-multer-918dc66d304c
 }
   render() {
     const { filter, data } = this.state;
